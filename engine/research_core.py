@@ -546,6 +546,7 @@ def fixture_arc():
 
 def build_manifest(config, root, arc_root, arc_revision):
     from iq_bench import build_test
+    from iq_bench_hard import build_hard_test
     profile=PROFILES[config['profile']]
     cap=0 if config['mode']=='bench' else profile['cand_cap']
     candidates=load_candidates(root,cap)
@@ -554,10 +555,15 @@ def build_manifest(config, root, arc_root, arc_revision):
     if config['mode']=='arc':
         splits,data=fixture_arc() if config['fixture'] else arc_tasks(arc_root,profile['arc_n'],config['seed'],arc_revision)
     else:
-        items=build_test(n_per_family=max(20,dev_n+hold_n),seed=config['seed'])
+        # v2 hard bank: ceiling-proof families b∈[135,168], solver-verified unique
+        from iq_bench_hard import HARD_FAMILIES
+        n_needed=max(20,dev_n+hold_n)
+        per=max(3,-(-n_needed//len(HARD_FAMILIES)) )
+        items=build_hard_test(n_per_family=per,seed=config['seed'])
+        items=items[:n_needed] if len(items)>=n_needed else items+build_hard_test(n_per_family=per+1,seed=config['seed']+1)[:n_needed-len(items)]
         dev,held=split_items(items,dev_n,hold_n,config['seed'])
         splits=dict(dev=dev,heldout=held)
-        data=dict(generator='iq_bench.build_test',hash=digest(splits))
+        data=dict(generator='iq_bench_hard.build_hard_test',hash=digest(splits))
     for phase, items in splits.items():
         for i,t in enumerate(items):
             t['question_hash']=qhash(t['question'])
