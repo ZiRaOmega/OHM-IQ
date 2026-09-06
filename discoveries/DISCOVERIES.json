@@ -1,0 +1,167 @@
+[
+ {
+  "id": "d_20260906_111723_dca6ea",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "dca6ea05b6e4",
+  "text": "After deriving an answer, verify it by substitution before emitting it: re-apply the inferred rule to at least two earlier items and confirm it reproduces known values; if it fails, discard the rule and promote the next-best candidate. This transposes the agentic \"run-tests-then-fix\" loop into a self-check that catches arithmetic and rule-fit errors.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_6644b8",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "6644b87fa5a7",
+  "text": "Borrow Cursor's relevance-arbitration clause: answer options and extra premises \"may or may not be relevant — it is up to you to decide.\" Derive the answer from the stem alone first, then read options only to select the match, so distractors engineered against surface pattern-matching cannot anchor the derivation.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_1f980b",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "1f980ba47614",
+  "text": "Pre-commit a strategy ladder with a named default, like Kiro's \"Do mode (DEFAULT CHOICE)\": for number series default to finite differences; escalate to ratio/geometric/alternating-pattern only if differences don't collapse to a constant within two levels. Defaults stop the model from re-deciding its meta-strategy on every item.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_928be8",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "928be8eeb961",
+  "text": "Before committing, force an explicit confidence distribution over the top 2-3 candidate rules (Kiro: \"values must always sum to 1\") and take the argmax; if the leader holds < ~0.5, re-derive instead of rationalizing. Committing probability mass exposes uncertainty the model would otherwise paper over with confident prose.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_e22800",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "e2280024e27e",
+  "text": "Use scope tags to split output into <derivation> and <answer> (Dia's proposal-tag pattern): the model must complete the derivation before the answer exists, preventing the answer-first-then-rationalize failure mode; keep the answer field to a bare letter/value so prose cannot drift the result.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_1d35c4",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "1d35c4098a2e",
+  "text": "State an instruction-priority stack (Windsurf's \"always prioritize\"): if two rules fit the data, the simpler one wins; if intuition and derivation conflict, the derivation wins; correctness outranks format compliance. Explicit precedence prevents the model from resolving ambiguity toward the more impressive-looking hypothesis.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_f50a1a",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "f50a1ae0da1a",
+  "text": "Invert ChatGPT's mobile length rule — \"a sentence or two unless reasoning is required\" — into a budget: spend tokens on derivation, near-zero on narration (\"final answer: C\"). verbosity allocated to computation, not storytelling, measurably reduces mid-prose answer drift.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_1e227d",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "1e227d3086d8",
+  "text": "Compress booster directives into ChatGPT's \"Trait: behavior\" pairs (\"Systematic enumeration: list candidate transformations before committing\") instead of prose paragraphs; label-first formatting packs more executable constraints per word, which matters at an 80-word budget.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_b21578",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "b215781a45bf",
+  "text": "Open the booster with the corpus's universal first move — a one-line competence identity (\"You are a careful analytical reasoner...\") — because every production set spends its first tokens anchoring identity before policy; then follow immediately with the operational rules.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_757d5b",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "757d5b1bd4ec",
+  "text": "Write every clause as a second-person present-tense imperative (\"You enumerate... You verify...\"), never as third-person description (\"The model should...\") — the entire corpus uses direct address, which binds instructions to the acting agent and avoids normative ambiguity.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ },
+ {
+  "id": "d_20260906_111723_f501b9",
+  "ts": "2026-09-06T11:17:23",
+  "kind": "corpus",
+  "model": "nemotron-3-ultra",
+  "gen": 0,
+  "hash": "f501b9f02138",
+  "text": "From Lumo's \"use uncertainty phrases when appropriate\": convert uncertainty into an action, not a disclaimer — if any step feels uncertain, mark it and recompute that step via a different method (e.g., check a ratio rule algebraically and by substitution) before proceeding.",
+  "sources": [
+   "full_windsurf_prompt_wave_11",
+   "full_dia_dia_draftskill",
+   "full_cursor_prompts_agent_prompt_v10",
+   "full_kiro_mode_clasifier_prompt"
+  ]
+ }
+]

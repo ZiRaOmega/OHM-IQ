@@ -1,0 +1,6 @@
+*.log
+*.lock
+__pycache__/
+.pytest_cache/
+tg_token.txt
+iq_gateway_state.json
