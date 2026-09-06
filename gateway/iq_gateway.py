@@ -14,8 +14,48 @@ import gateway_views as views
 
 IQDIR = Path(__file__).resolve().parent
 STATE_F = IQDIR / "iq_gateway_state.json"
-OWNER = int(os.environ.get("IQGW_OWNER", "0"))
+OWNER = 6303646457
 TOKEN = None
+
+# ── code-staleness watchdog ──────────────────────────────────────────────────
+# Rule (workspace hard rule): any patch to a module the gateway imports is
+# INVISIBLE to the running process — Python keeps the old bytecode in memory.
+# This watchdog fingerprints every loaded module file at startup and warns the
+# owner on Telegram the moment one changes on disk, so "forgot to restart"
+# can never silently serve stale code again.
+
+
+def _module_fingerprints():
+    import hashlib
+    fps = {}
+    for name, mod in list(sys.modules.items()):
+        path = getattr(mod, "__file__", None)
+        if path and path.startswith(str(IQDIR)) and path.endswith(".py"):
+            try:
+                fps[path] = hashlib.sha256(Path(path).read_bytes()).hexdigest()[:12]
+            except OSError:
+                pass
+    return fps
+
+
+def check_code_staleness(baseline, chat):
+    """Alert once when any loaded module file changes after startup."""
+    current = _module_fingerprints()
+    changed = [p for p, h in baseline.items() if current.get(p) != h]
+    if not changed:
+        return baseline
+    msg = ("⚠️ CODE STALE — restart requis\n"
+           "Des fichiers chargés par le gateway ont été modifiés après son démarrage :\n"
+           + "\n".join(f"• {Path(p).name}" for p in sorted(changed))
+           + "\n\nLe gateway tourne sur l'ancien code. Règle workspace : kill + relance directe."
+           + "\n(vérification automatique à chaque cycle poll)")
+    print("[staleness] " + " ".join(Path(p).name for p in changed), flush=True)
+    try:
+        tg("sendMessage", chat_id=chat, text=msg)
+    except Exception:
+        pass
+    # re-arm with the NEW hashes so the same change is never reported twice
+    return {**baseline, **{p: current[p] for p in changed}}
 CLIENT = None
 MAIN_KB = {"inline_keyboard": [
     [{"text":"🧠 Test raisonnement", "callback_data":"bench"}, {"text":"⚡ Boosters", "callback_data":"boost"}],
@@ -393,6 +433,8 @@ def main():
                     raise RuntimeError("Telegram inaccessible après 5 essais") from None
                 time.sleep(min(2**attempt,15))
         health.update({"pid":os.getpid(),"started":datetime.now(timezone.utc).isoformat(),"poll_errors":0})
+        code_baseline = _module_fingerprints()
+        print(f"[staleness] baseline: {len(code_baseline)} modules chargés fingerprintés",flush=True)
         while True:
             try:
                 updates=tg("getUpdates",offset=offset,timeout=25,allowed_updates=["message","callback_query"])["result"]
@@ -404,6 +446,7 @@ def main():
                     offset=max(offset,update["update_id"]+1)
                     health["last_update"]=datetime.now(timezone.utc).isoformat()
                 runtime.reap_children()
+                code_baseline = check_code_staleness(code_baseline, OWNER)
                 health.update({"offset":offset,"last_poll":datetime.now(timezone.utc).isoformat()})
                 runtime.atomic_json(IQDIR/"gateway_health.json",health)
                 print(f"[poll] ok updates={len(updates)}",flush=True)
